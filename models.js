@@ -1,0 +1,11 @@
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
+export const Category = mongoose.model('Category', new Schema({id:{type:String,unique:true},name:String,emoji:String,image:String}));
+export const Product = mongoose.model('Product', new Schema({id:{type:Number,unique:true},name:String,category:String,description:String,ingredients:[String],image:String,originalPrice:Number,discount:Number,finalPrice:Number,weight:String,rating:Number,reviews:Number,manufacturingDate:String,expiryDate:String,stock:Number,tags:[String]}));
+export const User = mongoose.model('User', new Schema({name:String,email:{type:String,unique:true,sparse:true,lowercase:true},phone:String}));
+export const Otp = mongoose.model('Otp', new Schema({email:{type:String,index:true},otp:String,expiresAt:Date,createdAt:{type:Date,default:Date.now}}));
+export const Address = mongoose.model('Address', new Schema({userId:{type:Schema.Types.ObjectId,ref:'User'},label:String,name:String,phone:String,address:String,city:String,pincode:String,isDefault:{type:Boolean,default:false}}));
+export const Order = mongoose.model('Order', new Schema({userId:{type:Schema.Types.ObjectId,ref:'User',default:null},items:Array,address:Object,paymentMethod:String,amount:Number,status:{type:String,default:'Pending'},statusHistory:[{_id:false,status:String,at:{type:Date,default:Date.now}}],createdAt:{type:Date,default:Date.now}}));
+export const Review = mongoose.model('Review', new Schema({name:String,email:String,rating:Number,comment:String,productId:String,createdAt:{type:Date,default:Date.now}}));
+export const CustomCakeOrder = mongoose.model('CustomCakeOrder', new Schema({userId:{type:Schema.Types.ObjectId,ref:'User',default:null},payload:Object,status:{type:String,default:'Pending'},createdAt:{type:Date,default:Date.now}}));
+export const Admin = mongoose.model('Admin', new Schema({name:String,email:{type:String,unique:true,lowercase:true},passwordHash:String}));
