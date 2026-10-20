@@ -19,7 +19,7 @@ const QUICK_BUTTONS = [
 const WELCOME = {
   role: 'assistant',
   text:
-    "Hi! I'm Sriram AI, your sweet shopping companion 🎂🍬. Ask me in English or Tanglish — try \"birthday cake venum\" or \"show cakes under ₹500\".",
+    "Hi! I'm Sriram AI, your sweet shopping companion 🎂🍬. Ask me in English, Tamil (தமிழ்) or Tanglish — try \"birthday cake venum\" or \"show cakes under ₹500\".",
   products: [],
 };
 
@@ -65,6 +65,7 @@ export default function AIAssistant() {
       // any reason (offline, quota, etc.), silently fall back to the
       // local engine so the chatbot never breaks.
       const data = await chatWithAI(query, history);
+      if (data.source === 'fallback') throw new Error('Gemini unavailable');
       assistantMsg = { role: 'assistant', text: data.reply, products: data.products || [] };
     } catch {
       const local = runLocalEngine(query);
@@ -130,7 +131,7 @@ export default function AIAssistant() {
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about cakes, sweets, prices... (English/Tanglish)"
+              placeholder="Ask about cakes, sweets, prices... (English/தமிழ்/Tanglish)"
               aria-label="Message Sriram AI"
               disabled={isTyping}
             />
