@@ -90,9 +90,9 @@ app.post('/api/addresses/:id/default',user,async(req,res)=>{await Address.update
 
 app.post('/api/orders',auth(false,'user'),async(req,res)=>{const {items,address,paymentMethod,amount}=req.body||{}; if(!Array.isArray(items)||!items.length)return res.status(400).json({error:'Cart is empty'}); const o=await Order.create({userId:req.user?req.user._id:null,items,address,paymentMethod,amount,status:paymentMethod==='cod'?'Pending':'Confirmed',statusHistory:paymentMethod==='cod'?[stamp('Pending')]:[stamp('Pending'),stamp('Confirmed')]});res.json(ord(o.toObject()));});
 app.get('/api/orders',user,async(req,res)=>{const rows=await Order.find({userId:req.user._id}).sort({createdAt:-1}).lean();res.json(rows.map(o=>ord(o)));});
-app.get('/api/orders/:id',async(req,res)=>{const o=await Order.findById(req.params.id).lean();if(!o)return res.status(404).json({error:'Order not found'});res.jsonord(o);});
-app.post('/api/orders/:id/confirm',user,async(req,res)=>{const o=await Order.findOneAndUpdate({_id:req.params.id,userId:req.user._id},{status:'Confirmed',$push:{statusHistory:stamp('Confirmed')}},{new:true}).lean();if(!o)return res.status(404).json({error:'Order not found'});res.jsonord(o);});
-app.post('/api/orders/:id/cancel',user,async(req,res)=>{const o=await Order.findOneAndUpdate({_id:req.params.id,userId:req.user._id},{status:'Cancelled',$push:{statusHistory:stamp('Cancelled')}},{new:true}).lean();if(!o)return res.status(404).json({error:'Order not found'});res.jsonord(o);});
+app.get('/api/orders/:id',async(req,res)=>{const o=await Order.findById(req.params.id).lean();if(!o)return res.status(404).json({error:'Order not found'});res.json(ord(o));});
+app.post('/api/orders/:id/confirm',user,async(req,res)=>{const o=await Order.findOneAndUpdate({_id:req.params.id,userId:req.user._id},{status:'Confirmed',$push:{statusHistory:stamp('Confirmed')}},{new:true}).lean();if(!o)return res.status(404).json({error:'Order not found'});res.json(ord(o));});
+app.post('/api/orders/:id/cancel',user,async(req,res)=>{const o=await Order.findOneAndUpdate({_id:req.params.id,userId:req.user._id},{status:'Cancelled',$push:{statusHistory:stamp('Cancelled')}},{new:true}).lean();if(!o)return res.status(404).json({error:'Order not found'});res.json(ord(o));});
 
 app.get('/api/reviews',async(req,res)=>res.json((await Review.find().sort({createdAt:-1}).lean()).map(r=>({...r,id:id(r._id)}))));
 app.post('/api/reviews',async(req,res)=>{const r=await Review.create(req.body);res.json({...r.toObject(),id:id(r._id)});});
@@ -109,7 +109,7 @@ app.post('/api/admin/categories',admin,async(req,res)=>{const c=await Category.c
 app.put('/api/admin/categories/:id',admin,async(req,res)=>{const c=await Category.findOneAndUpdate({id:req.params.id},req.body,{new:true}).lean();res.json(c);});
 app.delete('/api/admin/categories/:id',admin,async(req,res)=>{await Category.deleteOne({id:req.params.id});res.json({success:true});});
 app.get('/api/orders/admin/all',admin,async(req,res)=>{const rows=await Order.find().sort({createdAt:-1}).lean();res.json(rows.map(o=>ord(o)));});
-app.put('/api/orders/admin/:id/status',admin,async(req,res)=>{const o=await Order.findByIdAndUpdate(req.params.id,{status:req.body.status,$push:{statusHistory:stamp(req.body.status)}},{new:true}).lean();if(!o)return res.status(404).json({error:'Order not found'});res.jsonord(o);});
+app.put('/api/orders/admin/:id/status',admin,async(req,res)=>{const o=await Order.findByIdAndUpdate(req.params.id,{status:req.body.status,$push:{statusHistory:stamp(req.body.status)}},{new:true}).lean();if(!o)return res.status(404).json({error:'Order not found'});res.json(ord(o));});
 
 // Admin analytics — all maths lives in analytics.js (shapes match the React admin pages).
 const loadAnalytics = async () => {
@@ -177,13 +177,17 @@ app.post('/api/ai/chat', async (req, res) => {
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: `${AI_SYSTEM_PROMPT}\n\nCATALOGUE: ${catalogue}` }] },
           contents,
-          generationConfig: { temperature: 0.6, maxOutputTokens: 300 },
+          generationConfig: { temperature: 0.6, maxOutputTokens: 1024, thinkingConfig: { thinkingBudget: 0 } },
         }),
       });
       const j = await r.json();
-      const text = j?.candidates?.[0]?.content?.parts?.map((x) => x.text).join('').trim();
+      if (!r.ok) console.error('Gemini API error:', r.status, JSON.stringify(j?.error || j));
+      const text = j?.candidates?.[0]?.content?.parts?.map((x) => x.text || '').join('').trim();
       if (text) return res.json({ reply: text, source: 'gemini' });
-    } catch { /* fall through to the fallback below */ }
+      console.error('Gemini returned no text. finishReason:', j?.candidates?.[0]?.finishReason, 'block:', JSON.stringify(j?.promptFeedback || {}));
+    } catch (e) { console.error('Gemini call failed:', e.message); }
+  } else if (!process.env.GEMINI_API_KEY) {
+    console.error('GEMINI_API_KEY is not set on this server - using fallback reply');
   }
   res.json({ reply: fallbackReply(msg), source: 'fallback' });
 });
