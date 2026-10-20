@@ -25,14 +25,34 @@ const stamp = status => ({ status, at: new Date() });
 function tokenFor(user,type='user'){return jwt.sign({sub:id(user._id),type},JWT_SECRET,{expiresIn:'7d'});}
 function auth(required=false, type='user') { return async (req,res,next)=>{ const h=req.headers.authorization||''; if(!h.startsWith('Bearer ')){if(required)return res.status(401).json({error:'Authentication required'}); return next();} try{const p=jwt.verify(h.slice(7),JWT_SECRET); if(p.type!==type) throw Error('wrong token'); req.auth=p; req.user=type==='user'?await User.findById(p.sub):await Admin.findById(p.sub); if(!req.user)throw Error('missing'); next();}catch(e){if(required)return res.status(401).json({error:'Invalid or expired token'}); next();}};}
 
-// ---- OTP email (Gmail SMTP) ----
-const MAIL_ENABLED = !!(process.env.SMTP_USER && process.env.SMTP_PASS);
-const mailer = MAIL_ENABLED ? nodemailer.createTransport({
+// ---- OTP email (Brevo HTTPS API first, Gmail SMTP as fallback) ----
+// Render Free blocks SMTP ports, so on Render use BREVO_API_KEY + BREVO_SENDER (works over HTTPS).
+const BREVO_ENABLED = !!(process.env.BREVO_API_KEY && process.env.BREVO_SENDER);
+const SMTP_ENABLED = !!(process.env.SMTP_USER && process.env.SMTP_PASS);
+const MAIL_ENABLED = BREVO_ENABLED || SMTP_ENABLED;
+const mailer = (!BREVO_ENABLED && SMTP_ENABLED) ? nodemailer.createTransport({
   service: process.env.SMTP_SERVICE || 'gmail',
   auth: { user: process.env.SMTP_USER, pass: String(process.env.SMTP_PASS).replace(/\s+/g, '') }
 }) : null;
-if (MAIL_ENABLED) console.log('Email OTP enabled (SMTP user: ' + process.env.SMTP_USER + ')');
-else console.log('Email OTP disabled: using DEV_OTP. Set SMTP_USER and SMTP_PASS in .env to send real emails.');
+if (BREVO_ENABLED) console.log('Email OTP enabled (Brevo API, sender: ' + process.env.BREVO_SENDER + ')');
+else if (SMTP_ENABLED) console.log('Email OTP enabled (SMTP user: ' + process.env.SMTP_USER + ')');
+else console.log('Email OTP disabled: using DEV_OTP. Set BREVO_API_KEY + BREVO_SENDER (or SMTP_USER + SMTP_PASS) to send real emails.');
+
+async function sendOtpMail(to, otp){
+  const subject = 'Your Sriram Cakes login OTP';
+  const text = `Your Sriram Cakes OTP is ${otp}. It is valid for 10 minutes. Do not share it with anyone.`;
+  const html = `<div style="font-family:Arial,sans-serif;max-width:420px;margin:auto;padding:24px;border:1px solid #eee;border-radius:12px"><h2 style="margin:0 0 8px">Sriram Cakes</h2><p>Your login OTP is</p><p style="font-size:32px;letter-spacing:6px;font-weight:bold;margin:12px 0">${otp}</p><p style="color:#666">Valid for 10 minutes. Do not share this OTP with anyone.</p></div>`;
+  if (BREVO_ENABLED) {
+    const r = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': process.env.BREVO_API_KEY, 'Content-Type': 'application/json', accept: 'application/json' },
+      body: JSON.stringify({ sender: { name: 'Sriram Cakes', email: process.env.BREVO_SENDER }, to: [{ email: to }], subject, htmlContent: html, textContent: text })
+    });
+    if (!r.ok) throw new Error('Brevo ' + r.status + ' ' + (await r.text()));
+    return;
+  }
+  await mailer.sendMail({ from: process.env.SMTP_FROM || process.env.SMTP_USER, to, subject, text, html });
+}
 
 async function issueOtp(email){
   const otp = MAIL_ENABLED ? String(crypto.randomInt(100000, 1000000)) : (process.env.DEV_OTP || '123456');
@@ -40,13 +60,7 @@ async function issueOtp(email){
   await Otp.create({email, otp, expiresAt:new Date(Date.now()+10*60e3)});
   if (!MAIL_ENABLED) return {devOtp: otp};
   try {
-    await mailer.sendMail({
-      from: process.env.SMTP_FROM || process.env.SMTP_USER,
-      to: email,
-      subject: 'Your Sriram Cakes login OTP',
-      text: `Your Sriram Cakes OTP is ${otp}. It is valid for 10 minutes. Do not share it with anyone.`,
-      html: `<div style="font-family:Arial,sans-serif;max-width:420px;margin:auto;padding:24px;border:1px solid #eee;border-radius:12px"><h2 style="margin:0 0 8px">Sriram Cakes</h2><p>Your login OTP is</p><p style="font-size:32px;letter-spacing:6px;font-weight:bold;margin:12px 0">${otp}</p><p style="color:#666">Valid for 10 minutes. Do not share this OTP with anyone.</p></div>`
-    });
+    await sendOtpMail(email, otp);
   } catch (e) {
     console.error('OTP email failed:', e.message);
     await Otp.deleteMany({email});
