@@ -167,6 +167,10 @@ export default function AdminProducts() {
                 <input required type="number" min="0" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} />
               </div>
             </div>
+            <div className="field">
+              <label>Image path</label>
+              <input value={form.image || ''} onChange={(e) => setForm({ ...form, image: e.target.value })} placeholder="/images/belgiummousse.jpeg" />
+            </div>
 
             <button type="submit" className="btn btn-primary btn-block" disabled={saving}>
               {saving ? 'Saving...' : form.id ? 'Save Changes' : 'Add Product'}
