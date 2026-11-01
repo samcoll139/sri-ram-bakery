@@ -34,13 +34,7 @@ export default function Footer() {
             The sweet and savoury story of Sriram Cakes &amp; Sweets started in 1998, bringing
             fresh cakes and traditional Indian sweets to every celebration.
           </p>
-          <div className="social-row">
-            {SOCIALS.map(({ icon: Icon, label, href }) => (
-              <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}>
-                <Icon size={17} />
-              </a>
-            ))}
-          </div>
+          
           <div className="quality-badge">
             <ShieldCheck size={22} />
             <span>FSSAI<br />Certified</span>
