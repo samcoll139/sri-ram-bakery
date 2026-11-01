@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useAuth } from './AuthContext.jsx';
 
 const CartContext = createContext(null);
 const STORAGE_KEY = 'sriram_cart_v1';
@@ -16,6 +17,15 @@ function loadCart() {
 
 export function CartProvider({ children }) {
   const [items, setItems] = useState(loadCart);
+  const { user } = useAuth();
+  const hadUser = useRef(Boolean(user));
+
+  // Empty the cart when the customer logs out, so the next person on this
+  // browser doesn't see the previous user's items.
+  useEffect(() => {
+    if (hadUser.current && !user) setItems([]);
+    hadUser.current = Boolean(user);
+  }, [user]);
 
   useEffect(() => {
     try {
