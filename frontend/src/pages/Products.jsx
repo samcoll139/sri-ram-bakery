@@ -147,7 +147,7 @@ export default function Products() {
 
       <style>{`
         .shop-banner {
-          background: linear-gradient(135deg, #fff1d9, #fffaf1);
+          background: linear-gradient(135deg, var(--banner-from), var(--banner-to));
           padding: clamp(2rem, 4vw, 3.5rem) 0;
           border-bottom: 1px solid var(--gold-soft);
         }
@@ -189,7 +189,7 @@ export default function Products() {
           position: absolute;
           left: 0; right: 0; bottom: -11px;
           height: 2px;
-          background: var(--maroon);
+          background: var(--brand-bg);
         }
         .shop-tabs-meta { display: flex; align-items: center; gap: 0.6rem; color: var(--brown-soft); font-size: 0.85rem; }
         .shop-tabs-meta button {
@@ -198,7 +198,7 @@ export default function Products() {
           display: flex; align-items: center; justify-content: center;
           color: var(--brown-soft);
         }
-        .shop-tabs-meta button.active { background: var(--maroon); color: var(--white); }
+        .shop-tabs-meta button.active { background: var(--brand-bg); color: var(--white); }
 
         .shop-toolbar {
           display: flex;
@@ -214,7 +214,7 @@ export default function Products() {
           padding: 0.7rem 0.9rem;
           border-radius: var(--radius-sm);
           border: 1.5px solid var(--border);
-          background: var(--white);
+          background: var(--surface);
           font-family: inherit;
           font-size: 0.9rem;
           color: var(--brown);

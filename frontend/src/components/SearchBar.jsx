@@ -27,7 +27,7 @@ export default function SearchBar({ onSearch, placeholder = 'Search for cakes, s
           display: flex;
           align-items: center;
           gap: 0.6rem;
-          background: var(--white);
+          background: var(--surface);
           border: 1.5px solid var(--border);
           border-radius: var(--radius-sm);
           padding: 0.5rem 0.75rem;

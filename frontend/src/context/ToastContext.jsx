@@ -41,7 +41,7 @@ export function ToastProvider({ children }) {
           max-width: min(320px, calc(100vw - 40px));
         }
         .toast-item {
-          background: var(--maroon);
+          background: var(--brand-bg);
           color: var(--white);
           padding: 0.85rem 1.1rem;
           border-radius: var(--radius-sm);
@@ -51,9 +51,9 @@ export function ToastProvider({ children }) {
           cursor: pointer;
           animation: toast-in 0.25s ease;
         }
-        .toast-success { background: var(--maroon); }
+        .toast-success { background: var(--brand-bg); }
         .toast-error { background: var(--danger); }
-        .toast-info { background: var(--brown); }
+        .toast-info { background: var(--bar-bg); color: var(--on-bar); }
         @keyframes toast-in {
           from { opacity: 0; transform: translateX(24px); }
           to { opacity: 1; transform: translateX(0); }

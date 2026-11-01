@@ -73,7 +73,8 @@ export default function Home() {
       <style>{`
         .cta-band {
           position: relative;
-          color: var(--white);
+          color: var(--on-bar);
+          background-color: var(--bar-bg);
           padding: 4rem 0;
           background-image: linear-gradient(rgba(36,31,26,0.72), rgba(36,31,26,0.72)), url('/images/hero-bakery-spread.jpg');
           background-size: cover;
@@ -86,7 +87,7 @@ export default function Home() {
         @media (max-width: 768px) {
           .cta-band { background-attachment: scroll; }
         }
-        .cta-band h2 { color: var(--white); margin-bottom: 0.4rem; }
+        .cta-band h2 { color: var(--on-bar); margin-bottom: 0.4rem; }
         .cta-band p { color: rgba(255,255,255,0.82); margin-bottom: 0; }
         .cta-inner {
           display: flex;

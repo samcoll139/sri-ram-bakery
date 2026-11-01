@@ -31,7 +31,7 @@ export default function Offers() {
 
       <style>{`
         .offer-banner {
-          background: linear-gradient(135deg, var(--maroon), var(--maroon-dark));
+          background: linear-gradient(135deg, var(--brand-bg), var(--brand-bg-dark));
           color: var(--white);
           padding: 3.5rem 0;
         }

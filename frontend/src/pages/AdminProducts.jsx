@@ -202,7 +202,7 @@ export default function AdminProducts() {
       <style>{`
         .admin-toolbar { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
         .field-hint { font-weight: 400; font-size: 0.78rem; color: var(--brown-soft); }
-        .admin-search { display: flex; align-items: center; gap: 0.5rem; background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 0.55rem 0.9rem; min-width: 260px; }
+        .admin-search { display: flex; align-items: center; gap: 0.5rem; background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 0.55rem 0.9rem; min-width: 260px; }
         .admin-search input { border: none; outline: none; font-family: inherit; flex: 1; background: transparent; }
         .table-card { padding: 0.5rem; }
         .table-wrap { overflow-x: auto; }

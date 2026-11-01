@@ -98,9 +98,8 @@ export default function Footer() {
 
       <style>{`
         .site-footer {
-          background: var(--brown);
-          color: var(--cream);
-          color: var(--brown);
+          background: var(--bar-bg);
+          color: var(--on-bar-soft);
           padding-top: 3rem;
         }
         .footer-grid {
@@ -120,36 +119,36 @@ export default function Footer() {
         }
         .footer-col ul { display: flex; flex-direction: column; gap: 0.6rem; }
         .footer-col a { font-size: 0.92rem; color: rgba(255,248,236,.78); }
-        .footer-col a:hover { color: var(--maroon); }
-        .contact-list li { display: flex; align-items: flex-start; gap: 0.4rem; font-size: 0.9rem; line-height: 1.5; color: var(--brown-soft); }
+        .footer-col a:hover { color: var(--gold-soft); }
+        .contact-list li { display: flex; align-items: flex-start; gap: 0.4rem; font-size: 0.9rem; line-height: 1.5; color: rgba(255,248,236,.78); }
         .social-row { display: flex; gap: 0.55rem; margin-bottom: 1rem; }
         .social-row a {
           width: 34px; height: 34px;
           display: flex; align-items: center; justify-content: center;
           border-radius: 50%;
-          background: var(--cream-soft);
-          color: var(--brown);
+          background: rgba(255,248,236,.12);
+          color: var(--on-bar);
         }
-        .social-row a:hover { background: var(--maroon); color: var(--white); }
+        .social-row a:hover { background: var(--gold); color: var(--on-gold); }
         .quality-badge {
           display: inline-flex; align-items: center; gap: 0.5rem;
-          color: var(--maroon);
+          color: var(--gold-soft);
           font-size: 0.72rem;
           font-weight: 700;
-          border: 1.5px solid var(--border);
+          border: 1.5px solid rgba(255,248,236,.25);
           border-radius: var(--radius-sm);
           padding: 0.5rem 0.8rem;
           width: fit-content;
         }
-        .footer-divider { height: 1px; background: var(--border); }
+        .footer-divider { height: 1px; background: rgba(255,248,236,.16); }
         .branch-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 1.5rem;
           padding: 2rem 1.5rem;
         }
-        .branch-card h4 { color: var(--maroon); font-family: var(--font-display); font-size: 1rem; margin-bottom: 0.6rem; border-bottom: 2px solid var(--gold); display: inline-block; padding-bottom: 0.2rem; }
-        .branch-card p { display: flex; align-items: flex-start; gap: 0.4rem; font-size: 0.85rem; color: var(--brown-soft); margin-bottom: 0.4rem; }
+        .branch-card h4 { color: var(--gold-soft); font-family: var(--font-display); font-size: 1rem; margin-bottom: 0.6rem; border-bottom: 2px solid var(--gold); display: inline-block; padding-bottom: 0.2rem; }
+        .branch-card p { display: flex; align-items: flex-start; gap: 0.4rem; font-size: 0.85rem; color: rgba(255,248,236,.78); margin-bottom: 0.4rem; }
         .footer-bottom {
           background: var(--footer-bottom);
           padding: 1.1rem 1.5rem;

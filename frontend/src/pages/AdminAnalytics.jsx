@@ -251,12 +251,12 @@ export default function AdminAnalytics() {
           padding: 0.4rem 0.9rem;
           border-radius: 999px;
           border: 1.5px solid var(--border);
-          background: var(--white);
+          background: var(--surface);
           font-size: 0.82rem;
           font-weight: 600;
           color: var(--brown-soft);
         }
-        .period-toggle button.active { background: var(--maroon); border-color: var(--maroon); color: var(--white); }
+        .period-toggle button.active { background: var(--brand-bg); border-color: var(--brand-bg); color: var(--white); }
         .customer-kpis div { display: flex; flex-direction: column; gap: 0.3rem; }
         .kpi-label { font-size: 0.78rem; color: var(--brown-soft); }
         .customer-kpis strong { font-family: var(--font-display); font-size: 1.4rem; color: var(--maroon-dark); }

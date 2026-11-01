@@ -152,10 +152,11 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .btn-gold {
   background: var(--gold);
-  color: var(--brown);
+  color: var(--on-gold);
 }
 .btn-gold:hover {
   background: var(--gold-soft);
+  color: var(--on-gold);
   box-shadow: var(--shadow-lift);
   transform: translateY(-2px);
 }
@@ -199,10 +200,10 @@ ul { list-style: none; margin: 0; padding: 0; }
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  background: var(--maroon);
-  color: var(--white);
+  background: var(--brand-bg);
+  color: var(--on-bar);
 }
-.badge-gold { background: var(--gold); color: var(--brown); }
+.badge-gold { background: var(--gold); color: var(--on-gold); }
 .badge-outline { background: transparent; border: 1px solid var(--border); color: var(--brown-soft); }
 
 /* Forms */
@@ -225,7 +226,7 @@ ul { list-style: none; margin: 0; padding: 0; }
   padding: 0.75rem 0.9rem;
   border-radius: var(--radius-sm);
   border: 1.5px solid var(--border);
-  background: var(--white);
+  background: var(--surface);
   color: var(--brown);
 }
 .field input:focus,
@@ -300,36 +301,68 @@ ul { list-style: none; margin: 0; padding: 0; }
   --pastel-pink: #fff7e9;
   --footer-bottom: #e8c46f;
 }
-body { background: #fffaf1; }
-.section { background: #fffaf1; }
+/* Theme-safe tokens: never flip with the theme, so bars/gold buttons stay readable */
+:root {
+  --page-bg: #fffaf1;
+  --surface: #ffffff;
+  --bar-bg: #3b1f12;          /* navbar / footer / ribbon background */
+  --on-bar: #fff8ed;          /* text on those bars */
+  --on-bar-soft: #f3e3c9;
+  --brand-bg: #6f2b0f;        /* maroon used as a background */
+  --brand-bg-dark: #4a1d0b;
+  --on-gold: #3b1f12;         /* text on gold buttons/badges */
+  --hero-from: #fbf1df;
+  --hero-to: #fffaf1;
+  --banner-from: #fff1d9;
+  --banner-to: #fffaf1;
+}
+body { background: var(--page-bg); }
+.section { background: var(--page-bg); }
 .card { border-radius: 14px; }
-.btn-primary { background: var(--brown); }
-.btn-primary:hover { background: var(--maroon-dark); }
+.btn-primary { background: var(--bar-bg); color: var(--on-bar); }
+.btn-primary:hover { background: var(--brand-bg-dark); color: var(--on-bar); }
 .btn-outline-dark { border-color: var(--brown); color: var(--brown); }
 .btn-outline-dark:hover { background: var(--brown); color: var(--white); }
 
 /* Light / Dark theme */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --cream: #17120f;
-  --cream-soft: #241b16;
+  --cream-soft: #2a2019;
   --card-bg: #211914;
-  --brown: #f7ead8;
+  --brown: #f7ead8;          /* body text */
   --brown-soft: #cdb9a5;
+  --maroon: #e8a56a;         /* accent text (was dark maroon -> unreadable) */
+  --maroon-dark: #f1d7b5;    /* headings / prices */
   --white: #fff8ed;
   --border: rgba(255, 224, 185, 0.16);
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
   --shadow-lift: 0 14px 32px rgba(0, 0, 0, 0.42);
   --pastel-blue: #222a31;
   --pastel-pink: #322225;
-  --footer-bottom: #3a2a1d;
+  --footer-bottom: #2a1d13;
+
+  --page-bg: #17120f;
+  --surface: #2a2019;
+  --bar-bg: #0f0b09;
+  --on-bar: #fff8ed;
+  --on-bar-soft: #e9d7bd;
+  --hero-from: #231a14;
+  --hero-to: #17120f;
+  --banner-from: #2a2019;
+  --banner-to: #17120f;
 }
-:root[data-theme="dark"] body { background: var(--cream); color: var(--brown); }
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] body { background: var(--page-bg); color: var(--brown); }
 :root[data-theme="dark"] .card,
 :root[data-theme="dark"] .field input,
 :root[data-theme="dark"] .field select,
 :root[data-theme="dark"] .field textarea { background: var(--card-bg); color: var(--brown); border-color: var(--border); }
-:root[data-theme="dark"] .field label,
-:root[data-theme="dark"] h1,
-:root[data-theme="dark"] h2,
-:root[data-theme="dark"] h3,
-:root[data-theme="dark"] h4 { color: #f1d7b5; }
+:root[data-theme="dark"] .field input::placeholder,
+:root[data-theme="dark"] .field textarea::placeholder { color: var(--brown-soft); }
+:root[data-theme="dark"] .field label { color: #f1d7b5; }
+:root[data-theme="dark"] .btn-primary:hover { background: #3b1f12; }
+:root[data-theme="dark"] .btn-outline-dark { border-color: var(--gold); color: var(--gold-soft); }
+:root[data-theme="dark"] .btn-outline-dark:hover { background: var(--gold); color: var(--on-gold); }
+:root[data-theme="dark"] .badge-gold { background: var(--gold); color: var(--on-gold); }
+body, .section, .card, .navbar, .site-footer { transition: background-color .25s ease, color .25s ease; }

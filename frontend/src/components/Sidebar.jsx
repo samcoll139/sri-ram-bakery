@@ -166,10 +166,10 @@ export default function Sidebar({ open, onClose }) {
           width: 38px; height: 38px;
           display: flex; align-items: center; justify-content: center;
           border-radius: 50%;
-          background: var(--maroon);
+          background: var(--brand-bg);
           color: var(--white);
         }
-        .social-row a:hover { background: var(--gold); color: var(--brown); }
+        .social-row a:hover { background: var(--gold); color: var(--on-gold); }
       `}</style>
     </>
   );

@@ -22,7 +22,7 @@ export default function Hero() {
         <span>CAKES</span><span>SWEETS</span><span>SAVOURIES</span><span>NUTS</span><span>BAKERY</span>
       </div>
       <style>{`
-        .hero-modern { background: linear-gradient(180deg,#fbf1df 0%,#fffaf1 100%); padding: 0 0 1.6rem; border-bottom: 1px solid var(--gold-soft); }
+        .hero-modern { background: linear-gradient(180deg,var(--hero-from) 0%,var(--hero-to) 100%); padding: 0 0 1.6rem; border-bottom: 1px solid var(--gold-soft); }
         .hero-modern-inner { min-height: 400px; display:grid; grid-template-columns: 330px minmax(0, 1fr); align-items:center; gap:3.5rem; }
         .hero-logo-wrap { display:flex; justify-content:center; }
         .hero-logo { width:min(300px,78vw); height:auto; filter: drop-shadow(0 15px 22px rgba(61,35,23,.18)); }
@@ -34,7 +34,7 @@ export default function Hero() {
         .hero-divider i { width:90px; height:2px; background:var(--gold); display:block; }
         .hero-modern-copy p { margin:0 auto 1.5rem; color:var(--brown-soft); max-width:58ch; font-size:1.05rem; }
         .hero-modern-copy .hero-actions { justify-content:center; }
-        .hero-ribbon { display:flex; justify-content:center; flex-wrap:wrap; gap:0; background:var(--brown); color:var(--white); border-radius:999px; overflow:hidden; box-shadow:var(--shadow); }
+        .hero-ribbon { display:flex; justify-content:center; flex-wrap:wrap; gap:0; background:var(--bar-bg); color:var(--on-bar); border-radius:999px; overflow:hidden; box-shadow:var(--shadow); }
         .hero-ribbon span { padding:.65rem 1.35rem; font-size:.76rem; letter-spacing:.12em; font-weight:800; }
         .hero-ribbon span + span { border-left:1px solid rgba(255,255,255,.18); }
         @media(max-width:900px){ .hero-modern-inner{grid-template-columns:1fr; min-height:auto; gap:1.25rem; padding-top:2rem;} .hero-logo{width:230px;} .hero-modern-copy h1{font-size:clamp(2.4rem,8vw,3.6rem); white-space:normal;} .hero-divider i{width:45px;} .hero-ribbon{border-radius:16px;} .hero-ribbon span{flex:1 1 30%; text-align:center;} }

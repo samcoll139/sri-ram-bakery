@@ -25,7 +25,7 @@ export default function ReviewCard({ review }) {
         .review-avatar {
           width: 42px; height: 42px;
           border-radius: 50%;
-          background: var(--maroon);
+          background: var(--brand-bg);
           color: var(--white);
           display: flex; align-items: center; justify-content: center;
           font-weight: 700;

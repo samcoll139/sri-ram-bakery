@@ -145,8 +145,8 @@ export default function Navbar() {
 
       <style>{`
         .announcement-bar {
-          background: var(--brown);
-          color: var(--white);
+          background: var(--bar-bg);
+          color: var(--on-bar);
           font-size: 0.82rem;
           text-align: center;
           padding: 0.55rem 2.5rem;
@@ -159,13 +159,13 @@ export default function Navbar() {
           background: none; border: none;
           color: rgba(255,255,255,0.75);
         }
-        .announcement-bar button:hover { color: var(--white); }
+        .announcement-bar button:hover { color: var(--on-bar); }
 
         .navbar {
           position: sticky;
           top: 0;
           z-index: 100;
-          background: var(--brown);
+          background: var(--bar-bg);
           border-bottom: 2px solid var(--gold);
         }
         .navbar-inner {
@@ -216,7 +216,7 @@ export default function Navbar() {
           display: flex; align-items: center; gap: 0.25rem;
           font-weight: 600;
           font-size: 0.93rem;
-          color: var(--cream);
+          color: var(--on-bar-soft);
           position: relative;
           padding: 0.35rem 0;
           white-space: nowrap;
@@ -264,13 +264,13 @@ export default function Navbar() {
         .nav-dropdown a:hover { background: var(--cream-soft); color: var(--maroon); }
 
         .navbar-actions { display: flex; align-items: center; gap: 0.4rem; }
-        .theme-toggle, .login-nav-btn { border: 1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.06); color: var(--white); min-height: 40px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: .4rem; padding: 0 .75rem; font-weight: 700; font-size: .82rem; transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
+        .theme-toggle, .login-nav-btn { border: 1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.06); color: var(--on-bar); min-height: 40px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: .4rem; padding: 0 .75rem; font-weight: 700; font-size: .82rem; transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
         .theme-toggle:hover, .login-nav-btn:hover { background: rgba(255,255,255,.15); color: var(--gold-soft); border-color: rgba(230,200,120,.6); }
         .my-account-nav-btn {
           display: inline-flex;
           align-items: center;
           gap: 0.4rem;
-          color: var(--white);
+          color: var(--on-bar);
           text-decoration: none;
           font-weight: 700;
           font-size: 0.86rem;
@@ -287,7 +287,7 @@ export default function Navbar() {
         .icon-btn {
           background: transparent;
           border: none;
-          color: var(--white);
+          color: var(--on-bar);
           width: 40px; height: 40px;
           border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
@@ -338,7 +338,7 @@ export default function Navbar() {
           position: absolute;
           top: 2px; right: 2px;
           background: var(--gold);
-          color: var(--brown);
+          color: var(--on-gold);
           font-size: 0.65rem;
           font-weight: 800;
           min-width: 17px; height: 17px;

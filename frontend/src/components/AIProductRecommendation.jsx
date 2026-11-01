@@ -42,7 +42,7 @@ export default function AIProductRecommendation({ product }) {
         .ai-product-card {
           display: flex;
           gap: 0.65rem;
-          background: var(--white);
+          background: var(--surface);
           border: 1px solid var(--border);
           border-radius: var(--radius-sm);
           padding: 0.6rem;
