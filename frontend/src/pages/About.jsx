@@ -37,7 +37,7 @@ export default function About() {
               perfectly baked cakes, and snacks that disappear before they've cooled.
             </p>
           </div>
-          <img src="/images/hero-bakery-spread.jpg" alt="" className="about-image" />
+          <img src="/images/about-shop.jpg" alt="" className="about-image" />
         </div>
       </section>
 
