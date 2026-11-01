@@ -30,7 +30,7 @@ export default function About() {
             <h2>A family kitchen, grown into a beloved sweet shop</h2>
             <p>
               Sriram Cakes &amp; Sweets Shop began as a small family kitchen serving festival sweets to
-              neighbours in Chennai. Today, we bring that same care to fresh cakes, traditional Indian
+              neighbours in Rajapalayam. Today, we bring that same care to fresh cakes, traditional Indian
               sweets, savouries, nuts, cookies and bakery products — made daily and delivered with love.
             </p>
             <p>

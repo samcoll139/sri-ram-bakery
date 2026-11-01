@@ -1,10 +1,10 @@
-import { MapPin, Phone, Mail, Clock, ExternalLink } from 'lucide-react';
+import { MapPin, Phone, Clock, ExternalLink } from 'lucide-react';
 
 // Sensible defaults baked in directly so the map/directions work even if
 // no .env file has been created yet — override via VITE_GOOGLE_MAPS_URL /
 // VITE_GOOGLE_MAPS_EMBED_URL in .env if the shop address changes.
-const DEFAULT_MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=142+Gandhi+Bazaar+Main+Road+Chennai+Tamil+Nadu+600004';
-const DEFAULT_MAPS_EMBED_URL = 'https://www.openstreetmap.org/export/embed.html?bbox=80.2607%2C13.0777%2C80.2807%2C13.0877&layer=mapnik&marker=13.0827%2C80.2707';
+const DEFAULT_MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=Ambalapuli+Bazaar+Rajapalayam+Tamil+Nadu+626117';
+const DEFAULT_MAPS_EMBED_URL = 'https://www.openstreetmap.org/export/embed.html?bbox=77.5437%2C9.4427%2C77.5637%2C9.4627&layer=mapnik&marker=9.4527%2C77.5537';
 
 const mapsEmbedUrl = import.meta.env.VITE_GOOGLE_MAPS_EMBED_URL || DEFAULT_MAPS_EMBED_URL;
 const mapsUrl = import.meta.env.VITE_GOOGLE_MAPS_URL || DEFAULT_MAPS_URL;
@@ -24,7 +24,7 @@ export default function Contact() {
               <MapPin size={20} />
               <div>
                 <strong>Address</strong>
-                <p>142, Gandhi Bazaar Main Road, Chennai, Tamil Nadu 600004</p>
+                <p>Ambalapuli Bazaar, Rajapalayam, Tamil Nadu 626117</p>
                 {mapsUrl && (
                   <a href={mapsUrl} target="_blank" rel="noreferrer" className="directions-link">
                     Get Directions <ExternalLink size={13} />
@@ -36,14 +36,7 @@ export default function Contact() {
               <Phone size={20} />
               <div>
                 <strong>Phone</strong>
-                <p>+91 98765 43210</p>
-              </div>
-            </div>
-            <div className="contact-row">
-              <Mail size={20} />
-              <div>
-                <strong>Email</strong>
-                <p>hello@sriramcakes.in</p>
+                <p>+91 4646725037</p>
               </div>
             </div>
             <div className="contact-row">
