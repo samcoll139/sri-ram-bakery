@@ -85,16 +85,7 @@ export default function Sidebar({ open, onClose }) {
           )}
         </ul>
 
-        <div className="sidebar-socials">
-          <span className="sidebar-title">Follow Us</span>
-          <div className="social-row">
-            {SOCIALS.map(({ icon: Icon, label, href }) => (
-              <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}>
-                <Icon size={18} />
-              </a>
-            ))}
-          </div>
-        </div>
+       
       </aside>
 
       <style>{`
