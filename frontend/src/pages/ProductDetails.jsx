@@ -7,10 +7,6 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { useProducts } from '../context/ProductsContext.jsx';
 import ProductGrid from '../components/ProductGrid.jsx';
 
-function formatDate(iso) {
-  return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-}
-
 export default function ProductDetails() {
   const { id } = useParams();
   const { getProductById, getRelatedProducts } = useProducts();
@@ -61,11 +57,6 @@ export default function ProductDetails() {
             <div className="pd-ingredients">
               <strong>Ingredients: </strong>
               {product.ingredients.join(', ')}
-            </div>
-
-            <div className="pd-dates">
-              <span>Manufactured: {formatDate(product.manufacturingDate)}</span>
-              <span>Best before: {formatDate(product.expiryDate)}</span>
             </div>
 
             <div className="pd-price-row">
@@ -126,13 +117,6 @@ export default function ProductDetails() {
         }
         .review-count { color: var(--brown-soft); font-weight: 500; }
         .pd-ingredients { font-size: 0.9rem; color: var(--brown-soft); margin-bottom: 0.8rem; }
-        .pd-dates {
-          display: flex; gap: 1.5rem;
-          font-size: 0.85rem;
-          color: var(--brown-soft);
-          margin-bottom: 1.2rem;
-          flex-wrap: wrap;
-        }
         .pd-price-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.4rem; }
         .final-price { font-family: var(--font-display); font-size: 2rem; color: var(--maroon-dark); font-weight: 600; }
         .original-price { text-decoration: line-through; color: var(--brown-soft); }
