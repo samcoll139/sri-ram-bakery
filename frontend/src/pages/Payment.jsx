@@ -127,7 +127,7 @@ export default function Payment() {
       <div className="container">
         <div className="payment-card card">
           <span className="badge badge-gold">Demo Payment – No Real Money Transaction</span>
-          <h2>Sriram Cakes &amp; Sweets Shop</h2>
+          <h2>Srirambakery Shop</h2>
           <p className="amount">₹{amount}</p>
 
           <div className="qr-box">
