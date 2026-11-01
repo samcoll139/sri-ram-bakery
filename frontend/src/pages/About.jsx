@@ -28,7 +28,7 @@ export default function About() {
             <span className="kicker">Our story</span>
             <h2>A family kitchen, grown into a beloved sweet shop</h2>
             <p>
-              Sriram Cakes &amp; Sweets Shop began as a small family kitchen serving festival sweets to
+              Srirambakery Shop began as a small family kitchen serving festival sweets to
               neighbours in Rajapalayam. Today, we bring that same care to fresh cakes, traditional Indian
               sweets, savouries, nuts, cookies and bakery products — made daily and delivered with love.
             </p>
