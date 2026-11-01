@@ -57,6 +57,102 @@ export function detectStyle(text) {
   return hasTanglish ? 'ta' : 'en';
 }
 
+
+// ---------------------------------------------------------------------------
+// Tamil-script (தமிழ்) support
+// ---------------------------------------------------------------------------
+// Customers often type in real Tamil script. We normalise that into the
+// English / Tanglish keywords the rest of the engine understands, then turn
+// the reply back into Tamil script (see tamilize below).
+
+const TAMIL_SCRIPT = /[\u0B80-\u0BFF]/;
+
+// Longer phrases first so they win over their shorter parts.
+const TAMIL_TO_KEYWORD = [
+  ['பிறந்த நாள்', ' birthday '], ['பிறந்தநாள்', ' birthday '], ['பர்த்டே', ' birthday '],
+  ['திருமண நாள்', ' anniversary '], ['ஆண்டுவிழா', ' anniversary '], ['ஆனிவர்சரி', ' anniversary '],
+  ['கல்யாணம்', ' wedding '], ['திருமணம்', ' wedding '],
+  ['தீபாவளி', ' diwali '], ['பொங்கல்', ' pongal '], ['பண்டிகை', ' festival '],
+  ['பரிசு', ' gift '], ['கிஃப்ட்', ' gift '], ['கிப்ட்', ' gift '],
+  ['குழந்தைகள்', ' kids '], ['குழந்தை', ' kids '],
+  ['ஐஸ் கிரீம்', ' ice cream '], ['ஐஸ்கிரீம்', ' ice cream '],
+  ['குக்கீஸ்', ' cookies '], ['பிஸ்கட்', ' cookies '],
+  ['ஸ்வீட்ஸ்', ' sweets '], ['ஸ்வீட்', ' sweet '], ['இனிப்பு', ' sweet '],
+  ['கார வகை', ' savoury '], ['ஸ்நாக்ஸ்', ' snack '], ['காரம்', ' savoury '],
+  ['நட்ஸ்', ' nuts '], ['ட்ரை ஃப்ரூட்', ' dry fruit '],
+  ['கேக்', ' cake '],
+  ['அதிக ரேட்டிங்', ' best rated '], ['சிறந்த', ' best rated '],
+  ['தள்ளுபடி', ' discount '], ['சலுகை', ' offer '], ['ஆஃபர்', ' offer '],
+  ['டெலிவரி', ' delivery '], ['ஆர்டர்', ' order '], ['விலை', ' price '],
+  ['ரூபாய்க்குள்ள', ' kulla '], ['ரூபாய்க்குள்', ' kulla '], ['ரூபாய்', ' rs '],
+  ['க்குள்ள', ' kulla '], ['குள்ள', ' kulla '], ['கீழ', ' kulla '],
+  ['இருக்கிறது', ' irukku '], ['இருக்கா', ' irukku '], ['இருக்கு', ' irukku '],
+  ['வேண்டும்', ' venum '], ['வேணும்', ' venum '], ['வேணுமா', ' venum '],
+  ['என்ன', ' enna '], ['எவ்வளவு', ' evlo '], ['எப்படி', ' eppadi '],
+  ['வணக்கம்', ' vanakkam '], ['நன்றி', ' nandri '],
+  ['தமிழ்', ' tamil '], ['பேசு', ' pesu '], ['சொல்லுங்க', ' sollunga '],
+];
+
+function normalizeTamil(text) {
+  let out = text;
+  for (const [ta, kw] of TAMIL_TO_KEYWORD) out = out.split(ta).join(kw);
+  return out;
+}
+
+const OCC_TA = {
+  birthday: 'பிறந்தநாள்', anniversary: 'ஆண்டுவிழா', wedding: 'திருமணம்',
+  festival: 'பண்டிகை', gift: 'பரிசு', kids: 'குழந்தைகள்',
+};
+const OCC_TA_DAT = {
+  birthday: 'பிறந்தநாளுக்கு', anniversary: 'ஆண்டுவிழாவுக்கு', wedding: 'திருமணத்துக்கு',
+  festival: 'பண்டிகைக்கு', gift: 'பரிசுக்கு', kids: 'குழந்தைகளுக்கு',
+};
+// "birthday" -> "பிறந்தநாளுக்கு" (already includes the "-க்கு" ending)
+const occTaDat = (w) => OCC_TA_DAT[String(w).toLowerCase()] || `${w}-க்கு`;
+
+// Tanglish reply -> Tamil-script reply. Product names, numbers and category
+// names are copied through unchanged. Unknown strings stay as they are.
+const TAMILIZE_RULES = [
+  [/^Vanakkam!/, () => 'வணக்கம்! 👋 Sriram Cakes & Sweets-க்கு வரவேற்கிறோம்! எப்படி உதவலாம்? 🎂🍬'],
+  [/^Welcome! 😊 Vera/, () => 'வரவேற்கிறோம்! 😊 வேற ஏதாவது உதவி வேணும்னா சொல்லுங்க.'],
+  [/^Super! 😊 Edhavadhu/, () => 'சூப்பர்! 😊 ஏதாவது கேக், இனிப்பு வேணும்னு சொல்லுங்க, உதவறேன்!'],
+  [/^Aamaam!/, () => 'ஆமாம்! 😊 நான் தமிழ், Tanglish, English மூணுலயும் பேசுவேன். கேக், இனிப்பு பத்தி என்ன வேணும்னாலும் கேளுங்க!'],
+  [/^Product-a select/, () => 'பொருளை select பண்ணி cart-ல add பண்ணுங்க 🛒. அப்புறம் checkout போய் ஆர்டரை முடிக்கலாம்.'],
+  [/^Account-la poi/, () => 'Account-ல போய் Order History திறங்க. அங்க உங்க ஆர்டர் நிலையை பார்க்கலாம். 😊'],
+  [/^Custom cake venumna/, () => 'Custom cake வேணும்னா Custom Cake section-க்கு போங்க 🎂. அங்க உங்க டிசைன், ஃபிளேவர், சைஸ், மெசேஜ் கொடுத்து request அனுப்பலாம்.'],
+  [/^Contact page mulama/, () => 'Contact page வழியா எங்களை தொடர்பு கொள்ளலாம் 📞. ஏதாவது கேள்வி இருந்தா கேளுங்க!'],
+  [/^Ippo namma shop-la best rating/, () => 'இப்ப நம்ம கடையில best rating உள்ள பொருட்கள் இது:'],
+  [/^Indha naaliku best offers/, () => 'இன்றைக்கு best offers இது:'],
+  [/^(.+?) price ₹(\d+)(.*) thaan\.$/, (m) => `${m[1]} விலை ₹${m[2]}${m[3]} தான்.`],
+  [/^Enakku pudicha pick ithu: (.+?) 😋 \((.+?)\). Cart-la add pannalama\?$/, (m) => `எனக்கு பிடிச்ச pick இது: ${m[1]} 😋 (${m[2]}). Cart-ல add பண்ணலாமா?`],
+  [/^Sorry, purinjudhu illa 😅 Konjam clear/, () => 'சாரி, புரியல 😅 கொஞ்சம் தெளிவா சொல்லுங்க — என்ன occasion, எவ்வளவு budget?'],
+  [/^Sure! 🎂 Birthday-kku/, () => 'சரி! 🎂 பிறந்தநாளுக்கா, ஆண்டுவிழாவுக்கா, இல்ல வேற occasion-க்கா? Budget எவ்வளவுன்னும் சொல்லுங்க.'],
+  [/^Sure! 🎂 (?:(.+?)-ku )?(?:help pannuren|Andha help pannuren)\. Unga budget evlo\?$/, (m) => (m[1] ? `சரி! 🎂 ${occTaDat(m[1])} உதவறேன். உங்க budget எவ்வளவு?` : 'சரி! 🎂 உதவறேன். உங்க budget எவ்வளவு?')],
+  [/^Sure! 🎂 Andha help pannuren\. Unga budget evlo\?$/, () => 'சரி! 🎂 உதவறேன். உங்க budget எவ்வளவு?'],
+  [/^Kandippa! 🎂 (.+?)-ku (.+?) choose panna help panren\. Unga budget evlo\?$/, (m) => `கண்டிப்பா! 🎂 ${occTaDat(m[1])} ${m[2]} தேர்வு செய்ய உதவறேன். உங்க budget எவ்வளவு?`],
+  [/^Mela irukkura options/, () => 'மேல இருக்கற options-ல ஏதாவது பிடிச்சிருக்கா? 😊 \'Add\' கிளிக் பண்ணுங்க, இல்ல உங்க budget/flavor சொல்லுங்க, இன்னும் தேடி தரேன்.'],
+  [/^Naan Sriram AI, cakes/, () => 'நான் Sriram AI, கேக், இனிப்பு, ஆர்டர், ஷாப்பிங் தொடர்பான உதவி மட்டும்தான் பண்ணுவேன் 😊. Sriram Cakes & Sweets-ல எப்படி உதவலாம்?'],
+  [/^Sorry 😊 ₹(\d+) kulla exact/, (m) => `சாரி 😊 ₹${m[1]}-க்குள்ள exact match கிடைக்கல. கொஞ்சம் affordable options இங்க இருக்கு, try பண்ணுங்க:`],
+  [/^Sure! (\S+) ₹(\d+) kulla (.+) options-a suggest panren\.$/, (m) => `சரி! ${m[1]} ₹${m[2]}-க்குள்ள ${m[3]} options பரிந்துரைக்கிறேன்.`],
+  [/^Super! 👍 ₹(\d+) kulla gift options-a show panren\.$/, (m) => `சூப்பர்! 👍 ₹${m[1]}-க்குள்ள gift options இதோ.`],
+  [/^Super! 👍 ₹(\d+) kulla (.+) options-a show panren\.$/, (m) => `சூப்பர்! 👍 ₹${m[1]}-க்குள்ள ${m[2]} options இதோ.`],
+  [/^₹(\d+) kulla available-a irukkura options inga irukku/, (m) => `₹${m[1]}-க்குள்ள கிடைக்கற options இதோ 😊`],
+  [/^(.+?)-ku (.+?) nalla choices?\. 🎁/, (m) => `${occTaDat(m[1])} ${m[2]} நல்ல choice. 🎁 Budget சொன்னா இன்னும் specific-ஆ சொல்றேன்.`],
+  [/^(.+?)-ku ithu maadhiri try pannalam:$/, (m) => `${occTaDat(m[1])} இது மாதிரி try பண்ணலாம்:`],
+  [/^(.+?)-la irukkura popular options ithu:$/, (m) => `${m[1]}-ல இருக்கற popular options இது:`],
+  [/^"(.+)" related-a ithu kidachudhu:$/, (m) => `"${m[1]}" தொடர்பா இது கிடைச்சது:`],
+  [/^Ungalukku ithu match aagudhu:$/, () => 'உங்களுக்கு இது match ஆகுது:'],
+  [/^Sorry 😅, purinjudhu illa\./, () => 'சாரி 😅, புரியல. "birthday cake வேணும்", "500-க்குள்ள cakes" மாதிரி கேளுங்க.'],
+];
+
+function tamilize(tanglish) {
+  for (const [re, fn] of TAMILIZE_RULES) {
+    const m = tanglish.match(re);
+    if (m) return fn(m);
+  }
+  return tanglish;
+}
+
 // ---------------------------------------------------------------------------
 // Catalogue-aware keyword maps
 // ---------------------------------------------------------------------------
@@ -357,14 +453,19 @@ export function interpretMessage({ text, context, products, categories }) {
   const list = products || [];
   const cats = categories || [];
 
-  const style = resolveStyle(text, tokenize(text), ctxIn);
-  const q = text.toLowerCase().trim();
+  // Real Tamil script (தமிழ்) -> normalise to keywords, answer in Tamil script.
+  const isTamilScript = TAMIL_SCRIPT.test(text);
+  const textN = isTamilScript ? normalizeTamil(text) : text;
+
+  const style = isTamilScript ? 'ta' : resolveStyle(textN, tokenize(textN), ctxIn);
+  const q = textN.toLowerCase().trim();
   const tokens = tokenize(q);
   const flavorIndex = buildFlavorIndex(list);
   const ctx = { ...ctxIn, lastStyle: style };
 
-  const reply = (ta, en) => ({ reply: style === 'ta' ? ta : en, products: [], context: ctx, style });
-  const replyWithProducts = (ta, en, items) => ({ reply: style === 'ta' ? ta : en, products: items, context: ctx, style });
+  const pick = (ta, en) => (style === 'ta' ? (isTamilScript ? tamilize(ta) : ta) : en);
+  const reply = (ta, en) => ({ reply: pick(ta, en), products: [], context: ctx, style });
+  const replyWithProducts = (ta, en, items) => ({ reply: pick(ta, en), products: items, context: ctx, style });
 
   // ---- 1. Greetings & thanks (always short-circuit) ----
   if (isGreeting(tokens)) {
