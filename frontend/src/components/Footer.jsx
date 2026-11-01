@@ -26,12 +26,12 @@ export default function Footer() {
         <div className="footer-col footer-brand">
           <div className="brand">
             <div>
-              <strong>Sriram Cakes &amp; Sweets Shop</strong>
+              <strong>Srirambakery Shop</strong>
               <p className="tagline">Where Tradition Speaks</p>
             </div>
           </div>
           <p className="footer-story">
-            The sweet and savoury story of Sriram Cakes &amp; Sweets started in 1998, bringing
+            The sweet and savoury story of Srirambakery Shop started in 1998, bringing
             fresh cakes and traditional Indian sweets to every celebration.
           </p>
           
@@ -85,7 +85,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <span>© {year} Sriram Cakes &amp; Sweets Shop. All rights reserved.</span>
+        <span>© {year} Srirambakery Shop. All rights reserved.</span>
       </div>
 
       <style>{`
