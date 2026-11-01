@@ -17,7 +17,7 @@ const BASE_MENU_BOTTOM = [
   { to: '/contact', label: 'Contact' },
 ];
 
-const DEFAULT_MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=142+Gandhi+Bazaar+Main+Road+Chennai+Tamil+Nadu+600004';
+const DEFAULT_MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=Ambalapuli+Bazaar+Rajapalayam+Tamil+Nadu+626117';
 
 const SOCIALS = [
   { icon: Instagram, label: 'Instagram', href: import.meta.env.VITE_INSTAGRAM_URL || '#' },

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Instagram, Facebook, MessageCircle, MapPin, Phone, ShieldCheck } from 'lucide-react';
 import { useProducts } from '../context/ProductsContext.jsx';
 
-const DEFAULT_MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=142+Gandhi+Bazaar+Main+Road+Chennai+Tamil+Nadu+600004';
+const DEFAULT_MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=Ambalapuli+Bazaar+Rajapalayam+Tamil+Nadu+626117';
 
 const SOCIALS = [
   { icon: Instagram, label: 'Instagram', href: import.meta.env.VITE_INSTAGRAM_URL || '#' },
@@ -12,9 +12,8 @@ const SOCIALS = [
 ];
 
 const BRANCHES = [
-  { label: 'Corporate Office', address: '142, Gandhi Bazaar Main Road, Chennai, Tamil Nadu 600004' },
-  { label: 'Branch - 1', address: '27, T. Nagar High Road, Near Panagal Park, Chennai 600017' },
-  { label: 'Branch - 2', address: '9, Anna Nagar 2nd Avenue, Chennai 600040' },
+  { label: 'Main Shop', address: 'Ambalapuli Bazaar, Rajapalayam, Tamil Nadu 626117' },
+  { label: 'Branch - 1', address: '4 Mukku, Gurusamy Temple, Rajapalayam, Tamil Nadu 626117' },
 ];
 
 export default function Footer() {
@@ -72,9 +71,8 @@ export default function Footer() {
         <div className="footer-col">
           <h3>Contact</h3>
           <ul className="contact-list">
-            <li><MapPin size={14} /> 142, Gandhi Bazaar Main Road, Chennai, Tamil Nadu 600004</li>
-            <li><Phone size={14} /> +91 98765 43210</li>
-            <li>hello@sriramcakes.in</li>
+            <li><MapPin size={14} /> Ambalapuli Bazaar, Rajapalayam, Tamil Nadu 626117</li>
+            <li><Phone size={14} /> +91 4646725037</li>
             <li>Daily · 9:00 AM – 9:30 PM</li>
           </ul>
         </div>
@@ -87,7 +85,7 @@ export default function Footer() {
           <div className="branch-card" key={b.label}>
             <h4>{b.label}</h4>
             <p><MapPin size={13} /> {b.address}</p>
-            <p><Phone size={13} /> +91 98765 43210</p>
+            <p><Phone size={13} /> +91 4646725037</p>
           </div>
         ))}
       </div>
@@ -143,7 +141,7 @@ export default function Footer() {
         .footer-divider { height: 1px; background: rgba(255,248,236,.16); }
         .branch-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(2, 1fr);
           gap: 1.5rem;
           padding: 2rem 1.5rem;
         }
