@@ -8,7 +8,7 @@ import * as api from '../services/api.js';
 
 const emptyForm = {
   id: null, name: '', category: 'cakes', originalPrice: '', costPrice: '', discount: '', weight: '', stock: '',
-  manufacturingDate: '', expiryDate: '', image: '/images/placeholder-product.jpg',
+  image: '/images/placeholder-product.jpg',
 };
 
 export default function AdminProducts() {
@@ -31,7 +31,7 @@ export default function AdminProducts() {
     setForm({
       id: product.id, name: product.name, category: product.category,
       originalPrice: product.originalPrice, costPrice: product.costPrice ?? '', discount: product.discount, weight: product.weight,
-      stock: product.stock, manufacturingDate: product.manufacturingDate || '', expiryDate: product.expiryDate || '',
+      stock: product.stock,
       image: product.image,
     });
     setModalOpen(true);
@@ -48,8 +48,6 @@ export default function AdminProducts() {
       costPrice: Number(form.costPrice) || 0,
       discount: Number(form.discount) || 0,
       stock: Number(form.stock),
-      manufacturingDate: form.manufacturingDate || null,
-      expiryDate: form.expiryDate || null,
       image: form.image,
     };
 
@@ -100,7 +98,7 @@ export default function AdminProducts() {
             <table>
               <thead>
                 <tr>
-                  <th>Name</th><th>Category</th><th>Price</th><th>Cost</th><th>Discount</th><th>Weight</th><th>Stock</th><th>Expiry</th><th></th>
+                  <th>Name</th><th>Category</th><th>Price</th><th>Cost</th><th>Discount</th><th>Weight</th><th>Stock</th><th></th>
                 </tr>
               </thead>
               <tbody>
@@ -113,7 +111,6 @@ export default function AdminProducts() {
                     <td>{p.discount}%</td>
                     <td>{p.weight}</td>
                     <td>{p.stock}</td>
-                    <td>{p.expiryDate || '—'}</td>
                     <td className="row-actions">
                       <button onClick={() => openEditModal(p)} aria-label={`Edit ${p.name}`}><Pencil size={15} /></button>
                       <button onClick={() => setConfirmDeleteId(p.id)} aria-label={`Delete ${p.name}`}><Trash2 size={15} /></button>
@@ -169,14 +166,6 @@ export default function AdminProducts() {
                 <label>Stock</label>
                 <input required type="number" min="0" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} />
               </div>
-              <div className="field">
-                <label>Expiry Date</label>
-                <input type="date" value={form.expiryDate} onChange={(e) => setForm({ ...form, expiryDate: e.target.value })} />
-              </div>
-            </div>
-            <div className="field">
-              <label>Manufacturing Date</label>
-              <input type="date" value={form.manufacturingDate} onChange={(e) => setForm({ ...form, manufacturingDate: e.target.value })} />
             </div>
 
             <button type="submit" className="btn btn-primary btn-block" disabled={saving}>
