@@ -76,7 +76,7 @@ export default function Home() {
           color: var(--on-bar);
           background-color: var(--bar-bg);
           padding: 4rem 0;
-          background-image: linear-gradient(rgba(36,31,26,0.72), rgba(36,31,26,0.72)), url('/images/hero-bakery-spread.jpg');
+          background-image: linear-gradient(rgba(36,31,26,0.72), rgba(36,31,26,0.72)), url('/images/about-shop.jpg.jpeg');
           background-size: cover;
           background-position: center;
           background-attachment: fixed;
