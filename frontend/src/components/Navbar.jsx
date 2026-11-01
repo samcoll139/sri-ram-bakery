@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Search, User, ShoppingCart, Menu, PackageSearch, MapPin, LogOut, X, ChevronDown, TrendingUp, Sun, Moon } from 'lucide-react';
+import { Search, User, ShoppingCart, Menu, PackageSearch, MapPin, LogOut, X, ChevronDown, TrendingUp, Sun, Moon, LogIn } from 'lucide-react';
 import { useCart } from '../context/CartContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useProducts } from '../context/ProductsContext.jsx';
@@ -105,6 +105,7 @@ export default function Navbar() {
             </Link>
             <div className="account-menu-wrap" ref={accountRef}>
               <button className="login-nav-btn" aria-label={user ? 'Account menu' : 'Login'} onClick={handleAccountClick}>
+                <LogIn size={18} className="login-icon" />
                 <span>{user ? 'Account' : 'Login'}</span>
               </button>
               {user && accountMenuOpen && (
@@ -284,6 +285,7 @@ export default function Navbar() {
         }
 
         .login-nav-btn { min-width: 78px; }
+        .login-icon { display: none; }
         .icon-btn {
           background: transparent;
           border: none;
@@ -353,6 +355,9 @@ export default function Navbar() {
           .hamburger { display: flex; }
           .theme-toggle span, .login-nav-btn span { display: none; }
           .theme-toggle, .login-nav-btn { width: 40px; min-width: 40px; padding: 0; }
+          .login-icon { display: block; }
+          .my-account-nav-btn span { display: none; }
+          .my-account-nav-btn { padding: 0.55rem; }
         }
       `}</style>
     </>
