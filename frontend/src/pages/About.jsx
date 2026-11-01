@@ -14,7 +14,6 @@ export default function About() {
       <section className="about-hero">
         <div className="paisley-overlay" aria-hidden="true" />
         <div className="container about-hero-inner">
-          <img src="/images/about-bakery-kitchen.jpg" alt="Sriram Cakes & Sweets kitchen preparing fresh sweets" className="about-hero-image" />
           <div className="about-hero-text">
             <h1>Crafting Sweet <span className="accent">Memories</span> Since 1998</h1>
             <p>One sweet treat at a time, bringing tradition into every celebration.</p>
@@ -77,11 +76,10 @@ export default function About() {
         }
         .about-hero-inner {
           position: relative;
-          display: grid;
-          grid-template-columns: 0.9fr 1.1fr;
-          gap: 3rem;
-          align-items: center;
+          display: block;
+          text-align: center;
         }
+        .about-hero-text p { margin-left: auto; margin-right: auto; }
         .about-hero-image {
           width: 100%;
           aspect-ratio: 4/3;
