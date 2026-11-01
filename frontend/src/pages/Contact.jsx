@@ -51,7 +51,7 @@ export default function Contact() {
           <div className="map-embed card">
             {mapsEmbedUrl ? (
               <iframe
-                title="Sriram Cakes & Sweets Shop location"
+                title="Srirambakery Shop location"
                 src={mapsEmbedUrl}
                 width="100%"
                 height="100%"
